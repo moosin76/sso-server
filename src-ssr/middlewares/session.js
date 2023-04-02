@@ -1,9 +1,10 @@
 import { ssrMiddleware } from 'quasar/wrappers'
 import session from 'express-session';
 import express from 'express';
-import Config from 'src-ssr/config';
+import Config from '../../config';
 import db from 'src-ssr/lib/ConnectSequelize';
 import ConnectSession from 'connect-session-sequelize';
+import getEncodedId from 'src-ssr/lib/getEncodedId';
 
 export default ssrMiddleware(async ({ app, resolve, publicPath, folders, render, serve }) => {
 	const config = Config[process.env.NODE_ENV];
@@ -33,7 +34,12 @@ export default ssrMiddleware(async ({ app, resolve, publicPath, folders, render,
 		// console.log('env', process.env.NODE_ENV);
 		// console.log(req.session.id)
 		// console.log(config)
-		req.session.user = "slkaflajlf";
+		if(!req.session.socketId) {
+			req.session.socketId = getEncodedId();
+			req.session.save();
+			console.log('New Session Socket ID =>', req.session.socketId)
+		}
+
 		next();
 	})
 })

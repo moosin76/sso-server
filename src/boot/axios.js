@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
-import Config from '../../src-ssr/config';
+import Config from '../../config';
 import { Notify } from 'quasar';
 
 function interceptorRes(name, isDev = false) {

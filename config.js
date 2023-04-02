@@ -16,7 +16,7 @@ const development = {
 		port: 3306,
 		user: 'bnbsso',
 		password: 'test1234',
-		database: 'bnbsso'
+		database: 'bnbssoapi'
 	}
 }
 

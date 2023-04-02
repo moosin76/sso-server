@@ -12,12 +12,11 @@
         />
 
         <q-toolbar-title class="font-doyeon">
-          {{ $t("appTitle") }}
+          {{ $t("appTitle") }} Admin
         </q-toolbar-title>
 
         <div class="row items-center q-gutter-x-xs">
-          <LoginBtn>로그인</LoginBtn>
-          <q-btn :to="{ name: 'AdmHome' }" label="Admin"></q-btn>
+					<q-btn icon="mdi-home" round flat dense to="/"></q-btn>
           <LanguageSelector
             flat
             round
@@ -27,7 +26,9 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered> </q-drawer>
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+			<AdminMenu></AdminMenu>
+		</q-drawer>
 
     <q-page-container>
       <router-view />
@@ -38,11 +39,11 @@
 <script>
 import { defineComponent, ref } from "vue";
 import LanguageSelector from "components/etc/LanguageSelector.vue";
-import LoginBtn from "components/auth/LoginBtn.vue";
+import AdminMenu from "src/components/admin/AdminMenu.vue";
 
 export default defineComponent({
   name: "MainLayout",
-  components: { LanguageSelector, LoginBtn },
+  components: { LanguageSelector, AdminMenu },
   setup() {
     const leftDrawerOpen = ref(false);
 

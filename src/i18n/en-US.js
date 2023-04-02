@@ -6,4 +6,7 @@ export default {
 	loginTab1: 'Login',
 	loginTab2: 'Find ID',
 	loginTab3: 'Find PW',
+	adm_menu_home: "Admin Home",
+	adm_menu_allow: "Allow Sites",
+
 }

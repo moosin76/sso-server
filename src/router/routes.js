@@ -8,9 +8,14 @@ const routes = [
 			{ path: 'login', component: () => import('pages/auth/LoginPage.vue') }
 		]
 	},
-
-	// Always leave this as last one,
-	// but you can also remove it
+	{
+		path: '/adm',
+		component: () => import('layouts/AdminLayout.vue'),
+		children: [
+			{ name:"AdmHome", path: '', component: () => import('pages/admin/AdminIndex.vue') },
+			{ name:"AdmAllow", path: 'allow', component: () => import('pages/admin/AllowSite.vue') }
+		]
+	},
 	{
 		path: '/:catchAll(.*)*',
 		component: () => import('pages/ErrorNotFound.vue')

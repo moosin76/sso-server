@@ -1,4 +1,4 @@
-import Config from 'src-ssr/config';
+import Config from '../../config';
 import Sequelize from 'sequelize';
 
 const config = Config[process.env.NODE_ENV].SESSION_DB;
