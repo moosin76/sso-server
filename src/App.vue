@@ -6,6 +6,9 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+	mounted() {
+		this.$socket.emit('room:join', 'myRoom');
+	}
 })
 </script>

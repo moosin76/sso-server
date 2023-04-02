@@ -5,7 +5,8 @@ const config = Config[process.env.NODE_ENV].SESSION_DB;
 
 const sequelizeConfig = {
 	...config,
-	dialect: "mysql"
+	dialect: "mysql",
+	logging : false,
 }
 const sequelize = new Sequelize(
 	config.database,

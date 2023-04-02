@@ -12,10 +12,7 @@ export default ssrMiddleware(async ({ app, resolve, publicPath, folders, render,
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
 
-	global.$DB = {
-		models: db.sequelize.models,
-		sequelize: db.sequelize
-	};
+	global.$DB = db;
 
 	const connectSession = ConnectSession(session.Store);
 	const mySqlStore = new connectSession({ db: db.sequelize });

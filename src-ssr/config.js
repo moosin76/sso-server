@@ -1,4 +1,5 @@
 const production = {
+	API_SERVER : 'http://ssoapi.bnb.com:20200',
 	SESSION_DB: {
 		host: 'localhost',
 		port: 3306,
@@ -9,6 +10,7 @@ const production = {
 }
 
 const development = {
+	API_SERVER : 'http://ssoapi.bnb.com:20200',
 	SESSION_DB: {
 		host: 'localhost',
 		port: 3306,
