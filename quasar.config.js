@@ -131,6 +131,7 @@ module.exports = configure(function (ctx) {
 
 			middlewares: [
 				'session',
+				'allow-site',
 				ctx.prod ? 'compression' : '',
 				'render' // keep this as last one
 			]
