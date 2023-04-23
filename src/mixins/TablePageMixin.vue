@@ -11,26 +11,31 @@ export default defineComponent({
     };
   },
   computed: {
-		// 기본값하고 목록 가져오는 함수 필수!!
-    defaultPagination: () => null, 
+    // 기본값하고 목록 가져오는 함수 필수!!
+    defaultPagination: () => null,
     fetchApi: () => null,
+    
   },
   created() {
     this.initPagination();
   },
   mounted() {
     this.fetchData({ pagination: this.pagination });
-		window.addEventListener("popstate", this.routeChange);
+    window.addEventListener("popstate", this.routeChange);
   },
   beforeUnmount() {
-		window.removeEventListener("popstate", this.routeChange);
-	},
+    window.removeEventListener("popstate", this.routeChange);
+  },
   methods: {
-		routeChange() {
-			this.pageRouting = true;
-			this.initPagination();
-			this.fetchData({pagination : this.pagination});
-		},
+    changePagination() {
+			// console.log('changePagination', this.pagination);
+      this.fetchData({ pagination: this.pagination });
+    },
+    routeChange() {
+      this.pageRouting = true;
+      this.initPagination();
+      this.fetchData({ pagination: this.pagination });
+    },
     initPagination() {
       const { query } = this.$route;
       const pagination = {};
@@ -56,20 +61,25 @@ export default defineComponent({
         if (this.fetchApi == null) {
           throw new Error("fetchApi 함수가 없습니다.");
         }
-        delete pagination.rowsNumber;
-        const data = await this.fetchApi(pagination);
+				const payload = {...pagination}
+        delete payload.rowsNumber;
+
+        const data = await this.fetchApi(payload);
         if (data) {
           this.rows = data.rows;
           this.pagination = {
-            ...pagination,
+            ...payload,
             rowsNumber: data.count,
           };
+          if (this.selected) {
+            this.selected = [];
+          }
           this.pushState();
-					this.pageReady = true;
-					this.pageRouting = false;
+          this.pageReady = true;
+          this.pageRouting = false;
         }
       } catch (e) {
-        console.error(e.message);
+        console.error(e);
       }
     },
     pushState() {

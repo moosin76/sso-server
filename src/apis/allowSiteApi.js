@@ -19,7 +19,7 @@ const insert = async (form) => {
 		})
 		return data;
 	} catch {
-		console.log(e.messsage);
+		console.log(e.message);
 		return false;
 	}
 }
@@ -35,7 +35,7 @@ const update = async (id, form) => {
 		})
 		return data;
 	} catch {
-		console.log(e.messsage);
+		console.log(e.message);
 		return false;
 	}
 }
@@ -51,7 +51,7 @@ const remove = async (id) => {
 		})
 		return data;
 	} catch {
-		console.log(e.messsage);
+		console.log(e.message);
 		return false;
 	}
 }
@@ -67,8 +67,8 @@ const list = async (params) => {
 			cancelToken: token.list.token,
 		})
 		return data;
-	} catch {
-		console.log(e.messsage);
+	} catch(e) {
+		console.log(e.message);
 		return false;
 	}
 }
