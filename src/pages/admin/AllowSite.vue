@@ -1,12 +1,12 @@
 <template>
   <q-page padding>
     <div class="row items-center q-gutter-x-md">
-			<div class="text-h5">허용 사이트</div>
-			<q-space></q-space>
+      <div class="text-h5">허용 사이트</div>
+      <q-space></q-space>
       <q-btn label="test" @click="test"></q-btn>
-			<q-btn icon="mdi-plus" round color="primary">
-				<MyTooltip dir="left">사이트 추가</MyTooltip>
-			</q-btn>
+      <q-btn icon="mdi-plus" round color="primary" @click="openForm(null)">
+        <MyTooltip dir="left">사이트 추가</MyTooltip>
+      </q-btn>
     </div>
     <q-table
       v-model:pagination="pagination"
@@ -17,16 +17,40 @@
       class="q-mt-md"
     >
       <template #bottom>
-        <TableFooter
-          :pagination="pagination"
-          @request="fetchData"
-        >
-          <q-btn icon="mdi-delete" round size="sm"></q-btn>
-					<q-btn icon="mdi-delete" round size="sm"></q-btn>
-					<q-btn icon="mdi-delete" round size="sm"></q-btn>
+        <TableFooter :pagination="pagination" @request="fetchData">
         </TableFooter>
       </template>
+
+      <template #body-cell-CMD="props">
+        <q-td :props="props">
+          <q-btn
+            icon="mdi-pencil"
+            dense
+            round
+            flat
+            color="secondary"
+            @click="openForm(props.row)"
+          >
+            <MyTooltip>수정</MyTooltip>
+          </q-btn>
+          <q-btn
+            icon="mdi-delete"
+            dense
+            round
+            flat
+            color="negative"
+            @click="removeItem(props.row)"
+          >
+            <MyTooltip>삭제</MyTooltip>
+          </q-btn>
+        </q-td>
+      </template>
     </q-table>
+    <AllowSiteFormDialog
+      ref="form"
+      :item="curItem"
+      @saved="changePagination"
+    ></AllowSiteFormDialog>
   </q-page>
 </template>
 
@@ -36,16 +60,17 @@ import allowSiteApi from "src/apis/allowSiteApi";
 import TablePageMixin from "src/mixins/TablePageMixin.vue";
 import TableFooter from "src/components/etc/TableFooter.vue";
 import MyTooltip from "src/components/etc/MyTooltip.vue";
+import AllowSiteFormDialog from "components/admin/AllowSiteFormDialog.vue";
 
 export default defineComponent({
-  components: { TableFooter, MyTooltip },
+  components: { TableFooter, MyTooltip, AllowSiteFormDialog },
   name: "AllowSite",
   mixins: [TablePageMixin],
   data() {
     return {
       pagination: null,
       rows: [],
-      selected: [],
+      curItem: null,
     };
   },
   computed: {
@@ -57,15 +82,33 @@ export default defineComponent({
     defaultPagination: () => allowSiteApi.defaultPagination,
     fetchApi: () => allowSiteApi.list,
   },
-  watch: {
-    // "pagination.page": function() {
-    // 	this.fetchData({pagination: this.pagination});
-    // }
-  },
   methods: {
     async test() {
       const data = await allowSiteApi.test();
       this.fetchData();
+    },
+    openForm(item) {
+      this.curItem = item;
+      this.$nextTick(() => {
+        this.$refs.form.show();
+      });
+    },
+    async removeItem(item) {
+      this.$q
+        .dialog({
+          label: "삭제",
+          message: `${item.appName} 삭제 하시겠습니까?`,
+          cancel: true,
+        })
+        .onOk(async () => {
+          this.$q.loading.show();
+          const data = await allowSiteApi.remove(item.id);
+          this.$q.loading.hide();
+          if (data) {
+            this.changePagination();
+						this.$q.notify({type: 'info', message:`${item.appName} 삭제되었습니다.`});
+          }
+        });
     },
   },
 });

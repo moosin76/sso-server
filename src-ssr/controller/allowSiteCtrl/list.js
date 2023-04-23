@@ -3,7 +3,7 @@ import transLimit from 'src-ssr/lib/transLimit';
 
 export default async (req, res, next) => {
 	try {
-		console.log(req.query);
+		// console.log(req.query);
 		const page = Number(req.query.page) || 1;
 		const rowsPerPage = Number(req.query.rowsPerPage) || 10;
 		const descending = req.query.descending ? req.query.descending == 'true' : true;
@@ -22,7 +22,7 @@ export default async (req, res, next) => {
 		if (sortBy) {
 			order.push([sortBy, descending ? 'ASC' : 'DESC']);
 		}
-		console.log(sortBy, 'order', order);
+		// console.log(sortBy, 'order', order);
 
 		const data = await $DB.allowSite.findAndCountAll({
 			where,

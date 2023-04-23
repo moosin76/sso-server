@@ -64,7 +64,9 @@ export default defineComponent({
 				const payload = {...pagination}
         delete payload.rowsNumber;
 
+				this.$q.loading.show();
         const data = await this.fetchApi(payload);
+				this.$q.loading.hide();
         if (data) {
           this.rows = data.rows;
           this.pagination = {

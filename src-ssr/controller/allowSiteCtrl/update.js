@@ -11,7 +11,7 @@ export default async (req, res, next) => {
 			throw new Error('수정항목이 없습니다.');
 		}
 
-		const [updateCnt] = await $DB.alloweSite.update({
+		const [updateCnt] = await $DB.allowSite.update({
 			appName, siteUrl, allowed
 		}, {
 			where: { id }

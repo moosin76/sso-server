@@ -18,7 +18,7 @@ const insert = async (form) => {
 			cancelToken: token.insert.token,
 		})
 		return data;
-	} catch {
+	} catch(e) {
 		console.log(e.message);
 		return false;
 	}
@@ -34,7 +34,7 @@ const update = async (id, form) => {
 			cancelToken: token.update.token,
 		})
 		return data;
-	} catch {
+	} catch(e) {
 		console.log(e.message);
 		return false;
 	}
@@ -50,7 +50,7 @@ const remove = async (id) => {
 			cancelToken: token.remove.token,
 		})
 		return data;
-	} catch {
+	} catch(e) {
 		console.log(e.message);
 		return false;
 	}
