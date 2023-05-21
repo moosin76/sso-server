@@ -1,5 +1,5 @@
 <template>
-  <q-btn to="/login">
+  <q-btn :to="{name:'login'}">
     <slot></slot>
   </q-btn>
 </template>

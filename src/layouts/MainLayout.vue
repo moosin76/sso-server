@@ -28,12 +28,12 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-			<q-list>
-				<q-item clickable exact to="/join">
-					<q-item-section>회원가입</q-item-section>
-				</q-item>
-			</q-list>
-		</q-drawer>
+      <q-list>
+        <q-item clickable exact :to="{ name: 'join' }">
+          <q-item-section>회원가입</q-item-section>
+        </q-item>
+      </q-list>
+    </q-drawer>
 
     <q-page-container>
       <router-view />

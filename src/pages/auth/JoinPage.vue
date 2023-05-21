@@ -50,6 +50,7 @@ import { defineComponent } from "vue";
 import validateRules from "src/util/validateRules";
 import InputPassword from "components/inputs/InputPassword.vue";
 import InputPhone from "src/components/inputs/InputPhone.vue";
+import authApi from "src/apis/authApi";
 
 export default defineComponent({
   components: { InputPassword, InputPhone },
@@ -67,10 +68,23 @@ export default defineComponent({
   },
   computed: {
     rules: () => validateRules,
+    // next() {
+    //   return this.$route.query.next || "/";
+    // },
   },
   methods: {
-    save() {
-      console.log(this.form);
+    async save() {
+      // console.log(this.form);
+      this.$q.loading.show();
+      const data = authApi.join(this.form);
+      if (data) {
+        this.$q.notify({
+          type: "info",
+          message: `${this.form.mb_name}님 회원가입하셧습니다.`,
+        });
+        this.$router.push({ name: "login", query: this.$route.query });
+      }
+      this.$q.loading.hide();
     },
   },
 });
