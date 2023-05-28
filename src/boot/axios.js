@@ -1,11 +1,9 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
-import Config from '../../config';
+import config from '../../config';
 import axiosInterceptor from 'src/util/axiosInterceptor';
 
 const isDev = process.env.NODE_ENV == 'development';
-const config = isDev ? Config.development : Config.production;
-
 const ssoApi = axios.create({ baseURL: config.API_SERVER, withCredentials: true });
 ssoApi.interceptors.response.use(axiosInterceptor.res('ssoApi', isDev));
 ssoApi.interceptors.request.use(axiosInterceptor.req('ssoApi', isDev));

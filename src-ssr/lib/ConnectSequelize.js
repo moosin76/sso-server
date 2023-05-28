@@ -1,7 +1,7 @@
 import Config from '../../config';
 import Sequelize from 'sequelize';
 
-const config = Config[process.env.NODE_ENV].SESSION_DB;
+const config = Config.SESSION_DB;
 
 const sequelizeConfig = {
 	...config,

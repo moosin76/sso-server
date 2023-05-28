@@ -1,10 +1,10 @@
 <template>
   <q-form @submit="onSubmit">
     <q-item-section class="q-gutter-y-md">
-      <q-input label="아이디" v-model="form.id"></q-input>
+      <q-input label="이메일" v-model="form.mb_email"></q-input>
       <q-input
         label="비밀번호"
-        v-model="form.password"
+        v-model="form.mb_password"
         type="password"
       ></q-input>
       <q-btn
@@ -24,19 +24,39 @@
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import useUser from "src/stores/useUser";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "LoginForm",
   data() {
     return {
-      form: { id: "", password: "" },
+      form: { mb_email: "", mb_password: "" },
     };
   },
+	computed: {
+		next() {
+			return this.$route.query.next || '/';
+		}
+	},
   methods: {
-    onSubmit() {
-      console.log(this.form);
+		...mapActions(useUser, ['loginLocal']),
+    async onSubmit() {
+			this.$q.loading.show();
+			const data = await this.loginLocal(this.form);			
+			this.$q.loading.hide();
+			if(data) {
+				this.goNext();
+			}
     },
+		goNext() {
+			if(this.next.startsWith('http')) {
+				location.href = this.next;
+			} else {
+				this.$router.push(this.next);
+			}
+		}
   },
 });
 </script>
