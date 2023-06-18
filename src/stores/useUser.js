@@ -9,13 +9,20 @@ export default defineStore('user', {
 		accToken: null,
 	}),
 	getters: {
-
+		isLogin() {
+			return !!this.member;
+		}
 	},
 	actions: {
-		async socketLogin({member, token}) {
+		async socketLogin({ member, token }) {
 			this.member = member;
 			this.accToken = token;
 			authApi.setHeaderToken(token)
+		},
+		async socketLogout() {
+			this.member = null;
+			this.accToken = null;
+			authApi.unsetHeaderToken();
 		},
 		async loginLocal(form) {
 			const data = await authApi.login(form);
@@ -24,6 +31,14 @@ export default defineStore('user', {
 				socket.emit('sso:login', this.socketId, this.accToken);
 			}
 			return data;
+		},
+		async logout() {
+			const data = await authApi.logout(this.socketId);
+			if (data) {
+				this.socketLogout();
+				socket.emit('sso:logout', this.socketId);
+			}
 		}
 	},
+
 });
