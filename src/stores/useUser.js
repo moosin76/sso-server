@@ -4,7 +4,7 @@ import { socket } from 'boot/socket';
 
 export default defineStore('user', {
 	state: () => ({
-		socketId: null,
+		socketToken: null,
 		member: null,
 		accToken: null,
 	}),
@@ -28,15 +28,15 @@ export default defineStore('user', {
 			const data = await authApi.login(form);
 			if (data) {
 				this.socketLogin(data);
-				socket.emit('sso:login', this.socketId, this.accToken);
+				socket.emit('sso:login', this.socketToken, this.accToken);
 			}
 			return data;
 		},
 		async logout() {
-			const data = await authApi.logout(this.socketId);
+			const data = await authApi.logout(this.socketToken);
 			if (data) {
 				this.socketLogout();
-				socket.emit('sso:logout', this.socketId);
+				socket.emit('sso:logout', this.socketToken);
 			}
 		}
 	},

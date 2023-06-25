@@ -4,7 +4,7 @@ import express from 'express';
 
 import db from 'src-ssr/lib/ConnectSequelize';
 import ConnectSession from 'connect-session-sequelize';
-import getEncodedId from 'src-ssr/lib/getEncodedId';
+import getSocketToken from 'src-ssr/lib/getSocketToken';
 import socketIdCtrl from 'src-ssr/controller/socketIdCtrl';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -36,15 +36,15 @@ export default ssrMiddleware(async ({ app, resolve, publicPath, folders, render,
 		// console.log('env', process.env.NODE_ENV);
 		// console.log(req.session.id)
 		// console.log(config)
-		if(!req.session.socketId) {
-			req.session.socketId = getEncodedId();
+		if(!req.session.socketToken) {
+			req.session.socketToken = getSocketToken();
 			req.session.save();
-			console.log('New Session Socket ID =>', req.session.socketId)
+			console.log('New Session Socket Token =>', req.session.socketToken)
 		}
 
 		console.log( uuidv4());
 		next();
 	});
 
-	app.get('/socketId', socketIdCtrl);
+	app.get('/sso', socketIdCtrl);
 })

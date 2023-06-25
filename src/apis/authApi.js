@@ -19,8 +19,8 @@ const login = async (form) => {
 	return await ssoApi.post(`${URL}/login`, form);
 }
 
-const logout = async (socketId) => {
-	return await ssoApi.post(`${URL}/logout`, { socketId })
+const logout = async (socketToken) => {
+	return await ssoApi.post(`${URL}/logout`, { socketToken })
 }
 
 export default {

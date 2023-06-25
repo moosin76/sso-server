@@ -15,9 +15,9 @@ export default async (req, res, next) => {
 		}
 
 		if (serviceURL.includes('?')) {
-			res.redirect(`${serviceURL}&socketId=${req.session.socketId}`);
+			res.redirect(`${serviceURL}&socketToken=${req.session.socketToken}`);
 		} else {
-			res.redirect(`${serviceURL}?socketId=${req.session.socketId}`);
+			res.redirect(`${serviceURL}?socketToken=${req.session.socketToken}`);
 		}
 	} catch (e) {
 		res.json({
